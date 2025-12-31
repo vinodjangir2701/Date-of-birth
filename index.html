@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Date of birth calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <img src="" alt="img">
+  <div class="wrapper">
+    <div class="container">
+      <h2>Calculate Your Date-of-Birth</h2>
+      <form action="#" method="post">
+        <input type="date" name="" id="datepicker">
+        <button type="submit">Submit</button>
+      </form>
+      <div>
+        <!-- Result -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let dateInput = document.querySelector('#datepicker');
+    let submitBtn = document.querySelector('form > button');
+    let calculatedobshow = document.querySelector(".container > div");
+    let bgImage = document.querySelector("img");
+
+    calculatedobshow.style.display = "none"
+    let randomPic = Math.round(Math.random() * 120);
+    bgImage.src = `https://picsum.photos/1920/1080?random=${randomPic}`;
+    
+    submitBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      if (dateInput.value != "") {
+        calculateDateOfBirth();
+      }
+    });
+    dateInput.addEventListener("keyup", function (e) {
+      if (e.key == "Enter" && dateInput.value != "") {
+        calculateDateOfBirth();
+      }
+    })
+    function calculateDateOfBirth() {
+      // Input date 
+      let inputDate = dateInput.value.split("-").map(Number);        // let val = inputdate.map( (num) => (Number(num)) );
+      // Current date
+      let currentDate = new Date().getDate();
+      let currentMonth = new Date().getMonth() + 1;
+      let currentYear = new Date().getFullYear();
+      // calculation of date
+      let Y = currentYear - inputDate[0];
+      let M = currentMonth - inputDate[1];
+      let D = currentDate - inputDate[2];
+      if (D < 0) {
+        let previousMonth = new Date(currentYear, currentMonth - 1, 0);
+        D = D + previousMonth.getDate();
+        M = M - 1;
+      }
+      if (M < 0) {
+        Y = Y - 1;
+        M = M + 12;
+      }
+      calculatedobshow.style.display = "block"
+      setTimeout(() => {
+        dateInput.value = " ";
+        calculatedobshow.style.display = "none"
+      }, 4000);
+      calculatedobshow.innerHTML = `<p> <b>${Y}</b>  Year, <b>${M}</b> Month, <b>${D}</b> Day </p>`
+      let randomPic = Math.round(Math.random() * 120);
+      bgImage.src = `https://picsum.photos/1920/1080?random=${randomPic}`;
+
+    }
+  </script>
+</body>
+
+</html>
